@@ -2,3 +2,5 @@ venv/
 build/
 pyglsl_parser.egg-info/
 *.so
+__pycache__/
+pyglsl_parser/pyglsl_parser.cpp
