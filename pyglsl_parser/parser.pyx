@@ -67,13 +67,22 @@ cdef class Ast:
 cdef class Type:
     cdef astType* c_type
 
-    def builtin(self):
+    @property
+    def is_builtin(self):
         return self.c_type.builtin
 
-    def __repr__(self):
-        if self.builtin():
+    @property
+    def typename(self):
+        if self.is_builtin:
             c_builtin = <astBuiltin*>(self.c_type)
-            return lexemes.Keyword(c_builtin.type).name
+            keyword = lexemes.Keyword(c_builtin.type).name
+            return lexemes.Typename[keyword]
+        else:
+            return None
+
+    def __repr__(self):
+        if self.is_builtin:
+            return self.typename.name
         else:
             raise NotImplementedError()
 
@@ -93,10 +102,10 @@ cdef class Function:
     def return_type(self):
         typ = Type()
         typ.c_type = self.c_function.returnType
-        return typ
+        return typ.typename
 
     def __repr__(self):
-        body = ';' if self.is_prototype() else '{...}'
-        return '{ret} {name}(){body}'.format(ret=self.return_type(),
-                                             name=self.name(),
+        body = ';' if self.is_prototype else '{...}'
+        return '{ret} {name}(){body}'.format(ret=self.return_type.name,
+                                             name=self.name,
                                              body=body)
