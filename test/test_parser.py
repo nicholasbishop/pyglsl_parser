@@ -1,11 +1,13 @@
+# pylint: disable=missing-docstring
+
 from unittest import TestCase
 
 from pyglsl_parser.parser import Parser
-from pyglsl_parser.lexemes import Type
 from pyglsl_parser.shader_type import ShaderType
 
 class TestParser(TestCase):
     def test_simple_error(self):
+        """Test parse error."""
         text = 'x'
         parser = Parser(text, 'myfile')
         ast = parser.parse(ShaderType.Vertex)
@@ -14,6 +16,7 @@ class TestParser(TestCase):
         self.assertEqual(parser.error(), expected_err)
 
     def test_simple_main(self):
+        """Test empty main function."""
         text = 'void main() {}'
         parser = Parser(text, 'myfile')
         ast = parser.parse(ShaderType.Vertex)
