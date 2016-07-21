@@ -4,7 +4,7 @@ from unittest import TestCase
 
 from pyglsl_parser.parser import Parser
 from pyglsl_parser.lexemes import Typename
-from pyglsl_parser.ast import AstBuiltin, AstFunction
+from pyglsl_parser.ast import AstFunction, AstFunctionParameter
 
 class TestParser(TestCase):
     def test_simple_error(self):
@@ -20,7 +20,7 @@ class TestParser(TestCase):
         ast = Parser('void main() {}').parse()
         self.assertEqual(ast.functions, [
             AstFunction(name='main',
-                        return_type=AstBuiltin(Typename.void),
+                        return_type=Typename.void,
                         is_prototype=False)
         ])
 
@@ -29,14 +29,19 @@ class TestParser(TestCase):
         ast = Parser('int myFunc();').parse()
         self.assertEqual(ast.functions, [
             AstFunction(name='myFunc',
-                        return_type=AstBuiltin(Typename.int))
+                        return_type=Typename.int)
         ])
 
-    # TODO(nicholasbishop): reenable
-    # def test_parameters(self):
-    #     """Test that function parameters are parsed."""
-    #     ast = Parser('int myFunc(vec3 foo, mat4 bar);').parse()
-    #     func = ast.functions[0]
-    #     self.assertEqual(func.parameters, (
-    #         FunctionParameter('foo', Typename.vec3)
-    #     ))
+    def test_parameters(self):
+        """Test that function parameters are parsed."""
+        ast = Parser('int myFunc(vec3 foo, mat4 bar);').parse()
+        self.assertEqual(ast.functions, [
+            AstFunction(name='myFunc',
+                        return_type=Typename.int,
+                        parameters=[
+                            AstFunctionParameter(name='foo',
+                                                 base_type=Typename.vec3),
+                            AstFunctionParameter(name='bar',
+                                                 base_type=Typename.mat4)
+                        ])
+        ])

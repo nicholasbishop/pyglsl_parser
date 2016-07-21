@@ -28,30 +28,27 @@ class EqualityMixin(object):
         return not (self == other)
 
 
-class AstBuiltin(EqualityMixin):
-    def __init__(self, type_name):
-        self.type_name = type_name
-
-    def __repr__(self):
-        return self.type_name.name
-
-
 class AstStruct(EqualityMixin):
     def __init__(self):
         self.name = None
 
 
 class AstVariable(EqualityMixin):
-    def __init__(self):
-        self.name = None
-        self.base_type = None
+    def __init__(self, name, base_type):
+        self.name = name
+        self.base_type = base_type
         self.is_array = False
         self.is_precise = False
         self.array_sizes = []
 
+    def __repr__(self):
+        # TODO(nicholasbishop): full type
+        return '{} {}'.format(self.base_type.name, self.name)
+
 
 class AstFunctionParameter(AstVariable):
-    def __init__(self):
+    def __init__(self, name, base_type):
+        super().__init__(name, base_type)
         self.storage = None
         self.auxiliary = None
         self.memory = None
@@ -59,18 +56,22 @@ class AstFunctionParameter(AstVariable):
 
 
 class AstFunction(EqualityMixin):
-    def __init__(self, name, return_type, is_prototype=True):
+    def __init__(self, name, return_type, parameters=None,
+                 is_prototype=True):
         self.return_type = return_type
         self.name = name
-        self.parameters = []
+        self.parameters = [] if parameters is None else parameters
         self.statements = []
         self.is_prototype = is_prototype
 
     def __repr__(self):
         body = ';' if self.is_prototype else '{...}'
-        return '{ret} {name}(){body}'.format(ret=self.return_type,
-                                             name=self.name,
-                                             body=body)
+        params = ', '.join(str(param) for param in self.parameters)
+        return '{ret} {name}({params}){body}'.format(
+            ret=self.return_type,
+            name=self.name,
+            params=params,
+            body=body)
 
 
 class Ast(EqualityMixin):
