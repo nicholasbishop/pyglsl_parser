@@ -1,19 +1,11 @@
 # distutils: language = c++
 # distutils: extra_compile_args = -fno-rtti -fno-exceptions
 
-from enum import IntEnum
-
 from libcpp cimport bool
 from libcpp.vector cimport vector
 from cython.operator import dereference
-
-class ShaderType(IntEnum):
-    Compute = 0
-    Vertex = 1
-    TessControl = 2
-    TessEvaluation = 3
-    Geometry = 4
-    Fragment = 5
+from pyglsl_parser.shader_type import ShaderType
+from pyglsl_parser import lexemes
 
 
 cdef extern from '../glsl-parser/ast.h' namespace 'glsl':
@@ -46,11 +38,11 @@ cdef class Parser:
     def __cinit__(self, source, filename=''):
         self.c_parser = new parser(source.encode(), filename.encode())
 
-    def __dealloc__(self):
-        del self.c_parser
+    # def __dealloc__(self):
+    #     del self.c_parser
 
     def parse(self, shader_type):
-        c_ast = self.c_parser.parse(int(shader_type))
+        c_ast = self.c_parser.parse(shader_type.value)
         if c_ast:
             ast = Ast()
             ast.c_ast = c_ast
@@ -82,7 +74,7 @@ cdef class Type:
     def __repr__(self):
         if self.builtin():
             c_builtin = <astBuiltin*>(self.c_type)
-            return 'TODO, typen={}'.format(c_builtin.type)
+            return lexemes.Keyword(c_builtin.type).name
         else:
             raise NotImplementedError()
 
