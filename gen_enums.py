@@ -6,6 +6,7 @@ from collections import OrderedDict
 from enum import Enum
 from keyword import iskeyword
 import re
+import os
 
 
 # TODO(nicholasbishop): operators
@@ -103,10 +104,9 @@ def write_lines(lines, output_path):
 
 def main():
     """Parse the lexemes.h header and generate the Python enums."""
-    # TODO(nicholasbishop): use the script's path to ensure the
-    # following relative paths are correct
-    input_path = 'glsl-parser/lexemes.h'
-    output_path = 'pyglsl_parser/lexemes.py'
+    script_dir = os.path.dirname(os.path.realpath(__file__))
+    input_path = os.path.join(script_dir, 'glsl-parser/lexemes.h')
+    output_path = os.path.join(script_dir, 'pyglsl_parser/lexemes.py')
 
     with open(input_path) as lexemes_file:
         lexemes = parse_lexemes(lexemes_file)
