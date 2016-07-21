@@ -4,7 +4,7 @@
 from libcpp cimport bool
 from libcpp.vector cimport vector
 from cython.operator import dereference
-from pyglsl_parser.shader_type import ShaderType
+from pyglsl_parser.enums import ShaderType
 from pyglsl_parser import lexemes
 
 

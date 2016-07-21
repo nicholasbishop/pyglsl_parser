@@ -8,7 +8,7 @@ from pyglsl_parser.lexemes import Typename
 class TestParser(TestCase):
     def test_simple_error(self):
         """Test parse error."""
-        parser = Parser('x')
+        parser = Parser('x', 'myfile')
         ast = parser.parse()
         self.assertIs(ast, None)
         expected_err = 'myfile:1:2: error: premature end of file'
