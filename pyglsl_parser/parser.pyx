@@ -41,7 +41,7 @@ cdef class Parser:
     # def __dealloc__(self):
     #     del self.c_parser
 
-    def parse(self, shader_type):
+    def parse(self, shader_type=ShaderType.Vertex):
         c_ast = self.c_parser.parse(shader_type.value)
         if c_ast:
             ast = Ast()
