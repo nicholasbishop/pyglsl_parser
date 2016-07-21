@@ -1,6 +1,8 @@
 from unittest import TestCase
 
-from pyglsl_parser import Parser, ShaderType
+from pyglsl_parser.parser import Parser
+from pyglsl_parser.lexemes import Type
+from pyglsl_parser.shader_type import ShaderType
 
 class TestParser(TestCase):
     def test_simple_error(self):
@@ -15,6 +17,7 @@ class TestParser(TestCase):
         text = 'void main() {}'
         parser = Parser(text, 'myfile')
         ast = parser.parse(ShaderType.Vertex)
-        # TODO(nicholasbishop): add asserts, remove debug print
-        print(list(ast.functions()))
-        
+        functions = [str(func) for func in ast.functions()]
+        self.assertEqual(functions, [
+            'void main(){...}'
+        ])
