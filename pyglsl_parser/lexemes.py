@@ -342,4 +342,3 @@ class Typename(Enum):
     uimage2DMSArray = 116
     usamplerCubeArray = 117
     uimageCubeArray = 118
-
