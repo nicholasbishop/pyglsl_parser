@@ -65,7 +65,6 @@ cdef class Ast:
 
 
 cdef class Type:
-    # TODO, not sure how this is supposed to be done
     cdef astType* c_type
 
     def builtin(self):
