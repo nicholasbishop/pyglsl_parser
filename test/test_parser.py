@@ -18,16 +18,18 @@ class TestParser(TestCase):
     def test_simple_main(self):
         """Test empty main function."""
         ast = Parser('void main() {}').parse()
-        functions = [str(func) for func in ast.functions]
-        self.assertEqual(functions, [
-            'void main(){...}'
+        self.assertEqual(ast.functions, [
+            AstFunction(name='main',
+                        return_type=AstBuiltin(Typename.void),
+                        is_prototype=False)
         ])
 
     def test_return_type(self):
         """Test that a function return type is parsed."""
         ast = Parser('int myFunc();').parse()
         self.assertEqual(ast.functions, [
-            AstFunction('myFunc', AstBuiltin(Typename.int))
+            AstFunction(name='myFunc',
+                        return_type=AstBuiltin(Typename.int))
         ])
 
     # TODO(nicholasbishop): reenable

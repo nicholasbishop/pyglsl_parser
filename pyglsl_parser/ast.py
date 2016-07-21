@@ -59,12 +59,12 @@ class AstFunctionParameter(AstVariable):
 
 
 class AstFunction(EqualityMixin):
-    def __init__(self, name, return_type):
+    def __init__(self, name, return_type, is_prototype=True):
         self.return_type = return_type
         self.name = name
         self.parameters = []
         self.statements = []
-        self.is_prototype = True
+        self.is_prototype = is_prototype
 
     def __repr__(self):
         body = ';' if self.is_prototype else '{...}'
