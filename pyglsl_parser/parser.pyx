@@ -81,12 +81,15 @@ cdef class Type:
 cdef class Function:
     cdef astFunction* c_function
 
+    @property
     def name(self):
         return self.c_function.name.decode()
 
+    @property
     def is_prototype(self):
         return self.c_function.isPrototype
 
+    @property
     def return_type(self):
         typ = Type()
         typ.c_type = self.c_function.returnType
