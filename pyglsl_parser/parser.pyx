@@ -6,7 +6,7 @@ from libcpp.vector cimport vector
 from cython.operator import dereference
 from pyglsl_parser.enums import ShaderType
 from pyglsl_parser import lexemes
-
+from pyglsl_parser.ast import Ast, AstBuiltin, AstFunction
 
 cdef extern from '../glsl-parser/ast.h' namespace 'glsl':
     cdef cppclass astType:
@@ -15,14 +15,25 @@ cdef extern from '../glsl-parser/ast.h' namespace 'glsl':
     cdef cppclass astBuiltin:
         int type
 
+    cdef cppclass astStruct:
+        pass
+
+    cdef cppclass astFunctionParameter:
+        int storage
+        int auxiliary
+        int memory
+        int precision
+
     cdef cppclass astFunction:
-        char* name
         astType* returnType
+        char* name
+        vector[astFunctionParameter*] parameters
         bool isPrototype
 
     cdef cppclass astTU:
         astTU(int type)
         vector[astFunction*] functions
+        int type
 
 
 cdef extern from '../glsl-parser/parser.h' namespace 'glsl':
@@ -32,80 +43,54 @@ cdef extern from '../glsl-parser/parser.h' namespace 'glsl':
         const char* error() const
 
 
+cdef convert_builtin_type(astBuiltin* c_builtin):
+    keyword = lexemes.Keyword(c_builtin.type).name
+    type_name = lexemes.Typename[keyword]
+
+    return AstBuiltin(type_name=type_name)
+
+
+cdef convert_struct_type(astStruct* c_struct):
+    raise NotImplementedError()
+
+
+cdef convert_type(astType* c_type):
+    if c_type.builtin:
+        return convert_builtin_type(<astBuiltin*>(c_type))
+    else:
+        return convert_struct_type(<astStruct*>(c_type))
+
+
+cdef convert_function(astFunction* c_func):
+    func = AstFunction(name=c_func.name.decode(),
+                       return_type=convert_type(c_func.returnType))
+    func.is_prototype = c_func.isPrototype
+    # TODO: other fields
+    return func
+
+
+cdef convert_ast(astTU* c_ast):
+    ast = Ast(c_ast.type)
+    for c_func in c_ast.functions:
+        ast.functions.append(convert_function(c_func))
+    return ast
+
+
 cdef class Parser:
     cdef parser* c_parser
 
     def __cinit__(self, source, filename=''):
         self.c_parser = new parser(source.encode(), filename.encode())
 
-    # def __dealloc__(self):
-    #     del self.c_parser
+    def __dealloc__(self):
+        del self.c_parser
 
     def parse(self, shader_type=ShaderType.Vertex):
         c_ast = self.c_parser.parse(shader_type.value)
         if c_ast:
-            ast = Ast()
-            ast.c_ast = c_ast
-            return ast
+            return convert_ast(c_ast)
         else:
             return None
 
     def error(self):
         return self.c_parser.error().decode()
-
-
-cdef class Ast:
-    cdef astTU* c_ast
-
-    def functions(self):
-        for c_function in self.c_ast.functions:
-            func = Function()
-            func.c_function = c_function
-            yield func
-
-
-cdef class Type:
-    cdef astType* c_type
-
-    @property
-    def is_builtin(self):
-        return self.c_type.builtin
-
-    @property
-    def typename(self):
-        if self.is_builtin:
-            c_builtin = <astBuiltin*>(self.c_type)
-            keyword = lexemes.Keyword(c_builtin.type).name
-            return lexemes.Typename[keyword]
-        else:
-            return None
-
-    def __repr__(self):
-        if self.is_builtin:
-            return self.typename.name
-        else:
-            raise NotImplementedError()
-
-
-cdef class Function:
-    cdef astFunction* c_function
-
-    @property
-    def name(self):
-        return self.c_function.name.decode()
-
-    @property
-    def is_prototype(self):
-        return self.c_function.isPrototype
-
-    @property
-    def return_type(self):
-        typ = Type()
-        typ.c_type = self.c_function.returnType
-        return typ.typename
-
-    def __repr__(self):
-        body = ';' if self.is_prototype else '{...}'
-        return '{ret} {name}(){body}'.format(ret=self.return_type.name,
-                                             name=self.name,
-                                             body=body)
