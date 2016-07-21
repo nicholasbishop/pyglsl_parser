@@ -1,2 +1,5 @@
 [TYPECHECK]
 ignored-modules=pyglsl_parser.parser
+
+[MESSAGE CONTROL]
+disable=too-few-public-methods

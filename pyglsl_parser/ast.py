@@ -25,7 +25,7 @@ class EqualityMixin(object):
         return self.__dict__ == other.__dict__
 
     def __ne__(self, other):
-        return not (self == other)
+        return not self == other
 
 
 class AstStruct(EqualityMixin):
