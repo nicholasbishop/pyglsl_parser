@@ -1,2 +1,3 @@
+include pyglsl_parser/enums.py
 include pyglsl_parser/parser.pyx
 include glsl-parser/*
