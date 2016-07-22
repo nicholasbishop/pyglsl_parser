@@ -19,8 +19,9 @@ extensions = [
 ]
 
 setup(name='pyglsl_parser',
-      version='0.5.0',
+      version='0.5.1',
       test_suite='test',
+      description='Python wrapper around glsl-parser',
       url='https://github.com/nicholasbishop/pyglsl_parser',
       author='Nicholas Bishop',
       author_email='nicholasbishop@gmail.com',
