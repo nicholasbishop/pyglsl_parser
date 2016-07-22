@@ -47,3 +47,14 @@ class TestParser(TestCase):
                                                  base_type=Typename.mat4)
                         ])
         ])
+
+    def test_multiple_prototypes(self):
+        """Test that multiple prototypes are parsed."""
+        ast = parse('''void func1();
+void func2();
+void func3();''')
+        self.assertEqual(ast.functions, [
+            AstFunction(name='func1', return_type=Typename.void),
+            AstFunction(name='func2', return_type=Typename.void),
+            AstFunction(name='func3', return_type=Typename.void),
+        ])
