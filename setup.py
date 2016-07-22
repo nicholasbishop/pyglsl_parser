@@ -21,4 +21,7 @@ extensions = [
 setup(name='pyglsl_parser',
       version='0.5.0',
       test_suite='test',
+      url='https://github.com/nicholasbishop/pyglsl_parser',
+      author='Nicholas Bishop',
+      author_email='nicholasbishop@gmail.com',
       ext_modules=cythonize(extensions))
