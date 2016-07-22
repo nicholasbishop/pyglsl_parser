@@ -2,22 +2,24 @@
 
 from unittest import TestCase
 
-from pyglsl_parser.parser import Parser
+from pyglsl_parser.parser import parse, ParseError
 from pyglsl_parser.lexemes import Typename
 from pyglsl_parser.ast import AstFunction, AstFunctionParameter
 
 class TestParser(TestCase):
     def test_simple_error(self):
         """Test parse error."""
-        parser = Parser('x', 'myfile')
-        ast = parser.parse()
-        self.assertIs(ast, None)
-        expected_err = 'myfile:1:2: error: premature end of file'
-        self.assertEqual(parser.error(), expected_err)
+        with self.assertRaises(ParseError):
+            try:
+                parse('x', 'myfile')
+            except ParseError as err:
+                expected_err = 'myfile:1:2: error: premature end of file'
+                self.assertEqual(err.full_error, expected_err)
+                raise
 
     def test_simple_main(self):
         """Test empty main function."""
-        ast = Parser('void main() {}').parse()
+        ast = parse('void main() {}')
         self.assertEqual(ast.functions, [
             AstFunction(name='main',
                         return_type=Typename.void,
@@ -26,7 +28,7 @@ class TestParser(TestCase):
 
     def test_return_type(self):
         """Test that a function return type is parsed."""
-        ast = Parser('int myFunc();').parse()
+        ast = parse('int myFunc();')
         self.assertEqual(ast.functions, [
             AstFunction(name='myFunc',
                         return_type=Typename.int)
@@ -34,7 +36,7 @@ class TestParser(TestCase):
 
     def test_parameters(self):
         """Test that function parameters are parsed."""
-        ast = Parser('int myFunc(vec3 foo, mat4 bar);').parse()
+        ast = parse('int myFunc(vec3 foo, mat4 bar);')
         self.assertEqual(ast.functions, [
             AstFunction(name='myFunc',
                         return_type=Typename.int,

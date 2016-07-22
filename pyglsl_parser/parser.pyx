@@ -90,21 +90,16 @@ cdef convert_ast(astTU* c_ast):
     return ast
 
 
-cdef class Parser:
-    cdef parser* c_parser
+class ParseError(Exception):
+    def __init__(self, full_error):
+        super().__init__()
+        self.full_error = full_error
 
-    def __cinit__(self, source, filename=''):
-        self.c_parser = new parser(source.encode(), filename.encode())
 
-    def __dealloc__(self):
-        del self.c_parser
-
-    def parse(self, shader_type=ShaderType.Vertex):
-        c_ast = self.c_parser.parse(shader_type.value)
-        if c_ast:
-            return convert_ast(c_ast)
-        else:
-            return None
-
-    def error(self):
-        return self.c_parser.error().decode()
+def parse(source, filename='', shader_type=ShaderType.Vertex):
+    c_parser = new parser(source.encode(), filename.encode())
+    c_ast = c_parser.parse(shader_type.value)
+    if c_ast:
+        return convert_ast(c_ast)
+    else:
+        raise ParseError(full_error=c_parser.error().decode())
