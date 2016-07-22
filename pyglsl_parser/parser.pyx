@@ -95,6 +95,9 @@ class ParseError(Exception):
         super().__init__()
         self.full_error = full_error
 
+    def __str__(self):
+        return 'pyglsl_parser.parser.ParseError:\n' + self.full_error
+
 
 def parse(source, filename='', shader_type=ShaderType.Vertex):
     c_parser = new parser(source.encode(), filename.encode())
