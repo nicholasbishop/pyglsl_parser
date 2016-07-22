@@ -1,3 +1,6 @@
-include pyglsl_parser/enums.py
+include LICENSE
+include README
+include *.py
+include pyglsl_parser/*.py
 include pyglsl_parser/parser.pyx
 include glsl-parser/*
