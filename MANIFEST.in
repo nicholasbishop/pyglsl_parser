@@ -1,5 +1,5 @@
 include LICENSE
-include README
+include README.md
 include *.py
 include pyglsl_parser/*.py
 include pyglsl_parser/parser.pyx
