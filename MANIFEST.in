@@ -1,1 +1,2 @@
 include pyglsl_parser/parser.pyx
+include glsl-parser/*
