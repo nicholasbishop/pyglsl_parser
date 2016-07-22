@@ -103,6 +103,10 @@ def parse(source, filename='', shader_type=ShaderType.Vertex):
     c_parser = new parser(source.encode(), filename.encode())
     c_ast = c_parser.parse(shader_type.value)
     if c_ast:
-        return convert_ast(c_ast)
+        ast = convert_ast(c_ast)
+        del c_parser
+        return ast
     else:
-        raise ParseError(full_error=c_parser.error().decode())
+        full_error = c_parser.error().decode()
+        del c_parser
+        raise ParseError(full_error=full_error)
