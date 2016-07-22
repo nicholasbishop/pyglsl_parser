@@ -1,0 +1,1 @@
+include pyglsl_parser/parser.pyx
