@@ -1,5 +1,6 @@
 venv/
 build/
+dist/
 pyglsl_parser.egg-info/
 *.so
 __pycache__/
