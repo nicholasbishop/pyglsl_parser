@@ -1,9 +1,10 @@
 #! /usr/bin/env python
 
-# TODO
+"""Demonstration of the pyglsl_parser API."""
+
+from argparse import ArgumentParser
 
 from pyglsl_parser.parser import parse
-from argparse import ArgumentParser
 from pyglsl_parser.enums import ShaderType
 
 
@@ -16,9 +17,10 @@ def parse_cli_args():
                         choices=shader_type_names,
                         default=ShaderType.Fragment.name)
     return parser.parse_args()
-    
+
 
 def main():
+    """Parse and summarize a GLSL file."""
     cli_args = parse_cli_args()
     path = cli_args.path
     shader_type = ShaderType[cli_args.shader_type]
@@ -30,7 +32,7 @@ def main():
     print('functions:')
     for func in ast.functions:
         print(func)
-        
+
 
 if __name__ == '__main__':
     main()
