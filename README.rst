@@ -2,7 +2,7 @@
 pyglsl_parser
 =============
 
-Python wrapper around (glsl-parser <https://github.com/graphitemaster/glsl-parser>)
+Python wrapper around `glsl-parser <https://github.com/graphitemaster/glsl-parser>`_.
 
 Quick start
 -----------
@@ -12,7 +12,7 @@ Quick start
 >>> print(ast.functions)
 Output: [void main();]
 
-Try [example.py](example.py) to see it run.
+Try `example.py <example.py>`_ to see it run.
 
 License
 -------
@@ -23,6 +23,6 @@ Implementation
 --------------
 
 The glsl-parser code is wrapped via Cython in
-(pyglsl_parser/parser.pyx <pyglsl_parser/parser.pyx>). Some Python
+`pyglsl_parser/parser.pyx <pyglsl_parser/parser.pyx>`_. Some Python
 enums are automatically generated from a C header with
-(gen_enums.py <gen_enums.py>).
+`gen_enums.py <gen_enums.py>`_.
