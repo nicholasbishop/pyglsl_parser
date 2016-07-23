@@ -12,7 +12,8 @@ Quick start
 >>> print(ast.functions)
 Output: [void main();]
 
-Try `example.py <example.py>`_ to see it run.
+Take a look at `example.py <example.py>`_ for a slightly longer
+example.
 
 License
 -------
