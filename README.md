@@ -2,6 +2,17 @@
 
 Python wrapper around [glsl-parser](https://github.com/graphitemaster/glsl-parser)
 
+## Quick start
+
+```python
+from pyglsl_parser import parse
+ast = parse('void main();')
+print(ast.functions)
+# Output: [void main();]
+```
+
+Try [example.py](example.py) to see it run.
+
 ## License
 
 MIT License (MIT), same as glsl-parser.

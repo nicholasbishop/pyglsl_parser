@@ -4,7 +4,7 @@
 
 from argparse import ArgumentParser
 
-from pyglsl_parser.parser import parse
+from pyglsl_parser import parse
 from pyglsl_parser.enums import ShaderType
 
 
