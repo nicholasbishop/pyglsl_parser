@@ -68,7 +68,7 @@ class AstFunction(EqualityMixin):
         body = ';' if self.is_prototype else '{...}'
         params = ', '.join(str(param) for param in self.parameters)
         return '{ret} {name}({params}){body}'.format(
-            ret=self.return_type,
+            ret=self.return_type.name,
             name=self.name,
             params=params,
             body=body)
