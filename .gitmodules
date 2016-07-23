@@ -1,3 +1,3 @@
 [submodule "glsl-parser"]
 	path = glsl-parser
-	url = https://github.com/graphitemaster/glsl-parser.git
+	url = https://github.com/nicholasbishop/glsl-parser.git
