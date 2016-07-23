@@ -100,7 +100,9 @@ class ParseError(Exception):
 
 
 def parse(source, filename='', shader_type=ShaderType.Vertex):
-    c_parser = new parser(source.encode(), filename.encode())
+    b_source = source.encode('ascii')
+    b_filename = filename.encode('ascii')
+    c_parser = new parser(b_source, b_filename)
     c_ast = c_parser.parse(shader_type.value)
     if c_ast:
         ast = convert_ast(c_ast)
