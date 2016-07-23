@@ -20,7 +20,7 @@ extensions = [
 
 setup(name='pyglsl_parser',
       packages=['pyglsl_parser'],
-      version='0.5.9',
+      version='0.6.0',
       test_suite='test',
       description='Python wrapper around glsl-parser',
       url='https://github.com/nicholasbishop/pyglsl_parser',

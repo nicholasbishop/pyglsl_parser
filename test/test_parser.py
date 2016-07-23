@@ -2,7 +2,7 @@
 
 from unittest import TestCase
 
-from pyglsl_parser.parser import parse, ParseError
+from pyglsl_parser import ParseError, parse
 from pyglsl_parser.lexemes import Typename
 from pyglsl_parser.ast import AstFunction, AstFunctionParameter
 
