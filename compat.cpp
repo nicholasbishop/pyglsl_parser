@@ -8,4 +8,8 @@ namespace glsl {
 	template<>
 	void astNode<glsl::astFunction>::operator delete(void *) {
 	}
+
+	template<>
+	void astNode<glsl::astVariable>::operator delete(void *) {
+	}
 }
