@@ -1,4 +1,5 @@
 .. image:: https://ci.appveyor.com/api/projects/status/uprol5i785qd5i1s?svg=true
+   :target: https://ci.appveyor.com/project/nicholasbishop/pyglsl-parser/branch/master
 
 =============
 pyglsl_parser
