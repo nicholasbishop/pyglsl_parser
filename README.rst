@@ -1,3 +1,5 @@
+.. image:: https://ci.appveyor.com/api/projects/status/uprol5i785qd5i1s?svg=true
+
 =============
 pyglsl_parser
 =============
