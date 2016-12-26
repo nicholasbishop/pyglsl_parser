@@ -2,9 +2,17 @@
 
 # pylint: disable=invalid-name,missing-docstring
 
+import platform
+
 from setuptools import setup
 from setuptools.extension import Extension
 from Cython.Build import cythonize
+
+
+if platform.system() == 'Windows':
+    extra_compile_args = ['/GR-', '/EHs-']
+else:
+    extra_compile_args = ['-fno-rtti', '-fno-exceptions']
 
 extensions = [
     Extension(
@@ -15,7 +23,7 @@ extensions = [
                  'glsl-parser/parser.cpp',
                  'glsl-parser/util.cpp'],
         language='c++',
-        extra_compile_args=['-fno-rtti', '-fno-exceptions'],
+        extra_compile_args=extra_compile_args,
     )
 ]
 
