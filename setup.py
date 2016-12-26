@@ -10,7 +10,7 @@ from Cython.Build import cythonize
 
 
 if platform.system() == 'Windows':
-    extra_compile_args = ['/GR-', '/EHs-']
+    extra_compile_args = ['/GR-']
 else:
     extra_compile_args = ['-fno-rtti', '-fno-exceptions']
 
