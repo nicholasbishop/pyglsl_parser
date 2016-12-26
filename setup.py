@@ -17,7 +17,8 @@ else:
 extensions = [
     Extension(
         name='pyglsl_parser.parser',
-        sources=['pyglsl_parser/parser.pyx',
+        sources=['compat.cpp',
+                 'pyglsl_parser/parser.pyx',
                  'glsl-parser/ast.cpp',
                  'glsl-parser/lexer.cpp',
                  'glsl-parser/parser.cpp',
