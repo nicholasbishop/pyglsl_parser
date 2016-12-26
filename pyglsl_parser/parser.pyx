@@ -1,4 +1,3 @@
-# distutils: language = c++
 # distutils: extra_compile_args = -fno-rtti -fno-exceptions
 
 from libcpp cimport bool
