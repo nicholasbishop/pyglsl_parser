@@ -2,8 +2,7 @@
 
 #ifdef _MSC_VER
 
-#endif
-
+// Fix for https://github.com/nicholasbishop/pyglsl_parser/issues/1
 namespace glsl {
 	template<>
 	void astNode<glsl::astFunction>::operator delete(void *) {
@@ -13,3 +12,5 @@ namespace glsl {
 	void astNode<glsl::astVariable>::operator delete(void *) {
 	}
 }
+
+#endif  // _MSC_VER
