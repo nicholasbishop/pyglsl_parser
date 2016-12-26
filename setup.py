@@ -15,6 +15,7 @@ extensions = [
                  'glsl-parser/parser.cpp',
                  'glsl-parser/util.cpp'],
         language='c++',
+        extra_compile_args=['-fno-rtti', '-fno-exceptions'],
     )
 ]
 

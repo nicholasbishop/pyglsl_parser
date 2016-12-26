@@ -1,5 +1,3 @@
-# distutils: extra_compile_args = -fno-rtti -fno-exceptions
-
 from libcpp cimport bool
 from libcpp.vector cimport vector
 from cython.operator import dereference
